@@ -1,0 +1,106 @@
+\documentclass[11pt]{article}
+
+% - - - - - - -  Formatting Etc. - - - - - - - 
+
+\usepackage{amssymb,amsmath,setspace,covington,mathptmx,sectsty,natbib,stmaryrd,qtree,multirow,graphicx}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage[normalem]{ulem}
+
+\usepackage{hyperref}
+\hypersetup{
+colorlinks,%
+citecolor=black,%
+filecolor=black,%
+linkcolor=black,%
+urlcolor=blue
+}
+
+\allsectionsfont{\noindent \Large \normalfont \textsf}
+\singlespacing
+
+
+% ----------- Commands -----------------
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5pt}}
+\newcommand{\typ}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\email}[1]{\href{mailto:#1}{#1}}
+\newcommand{\sv}[1]{\ensuremath{\llbracket \textnormal{#1} \rrbracket}}
+\newcommand{\rs}[1]{\ensuremath{\raisebox{2pt}{#1}}}
+\newcommand{\s}[1]{\textsuperscript{$#1$}}
+\newcommand{\seq}[1]{$\langle$#1$\rangle$}
+\newcommand{\qq}[1]{$\ulcorner$#1$\urcorner$}
+\newcommand{\svv}[2]{\ensuremath{\llbracket \textnormal{#1}\rrbracket^{#2}}}
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+
+
+
+\begin{document}
+
+
+%NOTE: requires \usepackage{color}
+\begin{tabular}{ c  c  c | c  c  c  c  c  c  c  c  c  c }
+A & B & C & ( & A & $\&$ & ( & $\sim$ & B & $\rightarrow$ & C & ) & )\\
+\hline 
+$\top$ & $\top$ & $\top$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & $\top$ & $\top$ &  & \\
+$\top$ & $\top$ & $\perp$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & $\top$ & $\perp$ &  & \\
+$\top$ & $\perp$ & $\top$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\top$ & $\perp$ & $\top$ & $\top$ &  & \\
+$\top$ & $\perp$ & $\perp$ &  & $\top$ & \textcolor{red}{$\perp$} &  & $\top$ & $\perp$ & $\perp$ & $\perp$ &  & \\
+$\perp$ & $\top$ & $\top$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\perp$ & $\top$ & $\top$ & $\top$ &  & \\
+$\perp$ & $\top$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\perp$ & $\top$ & $\top$ & $\perp$ &  & \\
+$\perp$ & $\perp$ & $\top$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\top$ & $\perp$ & $\top$ & $\top$ &  & \\
+$\perp$ & $\perp$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\top$ & $\perp$ & $\perp$ & $\perp$ &  & \\
+\end{tabular}
+
+\vspace{2em}
+
+\begin{tabular}{ c  c  c | c  c  c  c  c  c  c  c  c | c | c  c  c  c  c  c }
+A & B & C & ( & A & $\leftrightarrow$ & ( & B & $\lor$ & C & ) & ) & A & ( & $\sim$ & B & $\rightarrow$ & C & )\\
+\hline 
+$\top$ & $\top$ & $\top$ &  & $\top$ & $\top$ &  & $\top$ & $\top$ & $\top$ &  &  & $\top$ &  & $\perp$ & $\top$ & $\top$ & $\top$ & \\
+$\top$ & $\top$ & $\perp$ &  & $\top$ & $\top$ &  & $\top$ & $\top$ & $\perp$ &  &  & $\top$ &  & $\perp$ & $\top$ & $\top$ & $\perp$ & \\
+$\top$ & $\perp$ & $\top$ &  & $\top$ & $\top$ &  & $\perp$ & $\top$ & $\top$ &  &  & $\top$ &  & $\top$ & $\perp$ & $\top$ & $\top$ & \\
+$\top$ & $\perp$ & $\perp$ &  & $\top$ & $\perp$ &  & $\perp$ & $\perp$ & $\perp$ &  &  & $\top$ &  & $\top$ & $\perp$ & $\perp$ & $\perp$ & \\
+$\perp$ & $\top$ & $\top$ &  & $\perp$ & $\perp$ &  & $\top$ & $\top$ & $\top$ &  &  & $\perp$ &  & $\perp$ & $\top$ & $\top$ & $\top$ & \\
+$\perp$ & $\top$ & $\perp$ &  & $\perp$ & $\perp$ &  & $\top$ & $\top$ & $\perp$ &  &  & $\perp$ &  & $\perp$ & $\top$ & $\top$ & $\perp$ & \\
+$\perp$ & $\perp$ & $\top$ &  & $\perp$ & $\perp$ &  & $\perp$ & $\top$ & $\top$ &  &  & $\perp$ &  & $\top$ & $\perp$ & $\top$ & $\top$ & \\
+$\perp$ & $\perp$ & $\perp$ &  & $\perp$ & $\top$ &  & $\perp$ & $\perp$ & $\perp$ &  &  & $\perp$ &  & $\top$ & $\perp$ & $\perp$ & $\perp$ & \\
+\end{tabular}
+
+
+\vspace{2em}
+
+
+\begin{tabular}{ c  c  c | c  c  c  c  c  c  c  c  c  c }
+$\perp$ & A & B & ( & $\perp$ & $\rightarrow$ & ( & B & $\lor$ & $\sim$ & A & ) & )\\
+\hline 
+$\perp$ & $\top$ & $\top$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\top$ & $\top$ & $\perp$ & $\top$ &  & \\
+$\perp$ & $\top$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\perp$ & $\perp$ & $\perp$ & $\top$ &  & \\
+$\perp$ & $\perp$ & $\top$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\top$ & $\top$ & $\top$ & $\perp$ &  & \\
+$\perp$ & $\perp$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & $\top$ & $\perp$ &  & \\
+\end{tabular}
+
+\vspace{2em}
+
+%NOTE: requires \usepackage{color}
+\begin{tabular}{ c  c  c | c  c  c  c  c  c  c  c  c | c | c  c  c  c  c  c }
+A & B & C & ( & A & $\leftrightarrow$ & ( & B & $\lor$ & C & ) & ) & A & ( & $\sim$ & B & $\rightarrow$ & C & )\\
+\hline 
+$\top$ & $\top$ & $\top$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\top$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\top$ & $\top$ & $\perp$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\top$ & $\top$ & $\perp$ &  &  & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & \textcolor{red}{$\top$} & $\perp$ & \\
+$\top$ & $\perp$ & $\top$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\top$} &  & $\top$ & $\perp$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\top$ & $\perp$ & $\perp$ &  & $\top$ & \textcolor{red}{$\perp$} &  & $\perp$ & $\perp$ & $\perp$ &  &  & \textcolor{red}{$\top$} &  & $\top$ & $\perp$ & \textcolor{red}{$\perp$} & $\perp$ & \\
+$\perp$ & $\top$ & $\top$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\top$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\perp$} &  & $\perp$ & $\top$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\perp$ & $\top$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\top$ & $\top$ & $\perp$ &  &  & \textcolor{red}{$\perp$} &  & $\perp$ & $\top$ & \textcolor{red}{$\top$} & $\perp$ & \\
+$\perp$ & $\perp$ & $\top$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\perp$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\perp$} &  & $\top$ & $\perp$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\perp$ & $\perp$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\perp$ & $\perp$ & $\perp$ &  &  & \textcolor{red}{$\perp$} &  & $\top$ & $\perp$ & \textcolor{red}{$\perp$} & $\perp$ & \\
+\end{tabular}
+
+
+\bibliographystyle{apalike}
+\bibliography{/Users/michaelrieppel/Dropbox/master.bib}
+
+
+
+
+\end{document}
