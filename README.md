@@ -1,5 +1,5 @@
-LemmoNaDe
-=========
+Truth Table Generator
+=====================
 
 This program generates a truth table given a well formed formula of sentential logic.  Enter multiple formulas separated by commas to include more than one formula in a single table.  Select "Full Table" to show all columns, and "Main Connective Only" to show only the column under the main connective.  Select "Text Table" to produce a plain text table, and "LaTex Table" to produce a  table formatted for Latex.
 
