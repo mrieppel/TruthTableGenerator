@@ -52,20 +52,6 @@ $\perp$ & $\perp$ & $\top$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\top$ &
 $\perp$ & $\perp$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\top$ & $\perp$ & $\perp$ & $\perp$ &  & \\
 \end{tabular}
 
-\vspace{2em}
-
-\begin{tabular}{ c  c  c | c  c  c  c  c  c  c  c  c | c | c  c  c  c  c  c }
-A & B & C & ( & A & $\leftrightarrow$ & ( & B & $\lor$ & C & ) & ) & A & ( & $\sim$ & B & $\rightarrow$ & C & )\\
-\hline 
-$\top$ & $\top$ & $\top$ &  & $\top$ & $\top$ &  & $\top$ & $\top$ & $\top$ &  &  & $\top$ &  & $\perp$ & $\top$ & $\top$ & $\top$ & \\
-$\top$ & $\top$ & $\perp$ &  & $\top$ & $\top$ &  & $\top$ & $\top$ & $\perp$ &  &  & $\top$ &  & $\perp$ & $\top$ & $\top$ & $\perp$ & \\
-$\top$ & $\perp$ & $\top$ &  & $\top$ & $\top$ &  & $\perp$ & $\top$ & $\top$ &  &  & $\top$ &  & $\top$ & $\perp$ & $\top$ & $\top$ & \\
-$\top$ & $\perp$ & $\perp$ &  & $\top$ & $\perp$ &  & $\perp$ & $\perp$ & $\perp$ &  &  & $\top$ &  & $\top$ & $\perp$ & $\perp$ & $\perp$ & \\
-$\perp$ & $\top$ & $\top$ &  & $\perp$ & $\perp$ &  & $\top$ & $\top$ & $\top$ &  &  & $\perp$ &  & $\perp$ & $\top$ & $\top$ & $\top$ & \\
-$\perp$ & $\top$ & $\perp$ &  & $\perp$ & $\perp$ &  & $\top$ & $\top$ & $\perp$ &  &  & $\perp$ &  & $\perp$ & $\top$ & $\top$ & $\perp$ & \\
-$\perp$ & $\perp$ & $\top$ &  & $\perp$ & $\perp$ &  & $\perp$ & $\top$ & $\top$ &  &  & $\perp$ &  & $\top$ & $\perp$ & $\top$ & $\top$ & \\
-$\perp$ & $\perp$ & $\perp$ &  & $\perp$ & $\top$ &  & $\perp$ & $\perp$ & $\perp$ &  &  & $\perp$ &  & $\top$ & $\perp$ & $\perp$ & $\perp$ & \\
-\end{tabular}
 
 
 \vspace{2em}
@@ -96,9 +82,35 @@ $\perp$ & $\perp$ & $\top$ &  & $\perp$ & \textcolor{red}{$\perp$} &  & $\perp$ 
 $\perp$ & $\perp$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\perp$ & $\perp$ & $\perp$ &  &  & \textcolor{red}{$\perp$} &  & $\top$ & $\perp$ & \textcolor{red}{$\perp$} & $\perp$ & \\
 \end{tabular}
 
+\vspace{2em}
 
-\bibliographystyle{apalike}
-\bibliography{/Users/michaelrieppel/Dropbox/master.bib}
+%NOTE: requires \usepackage{color}
+\begin{tabular}{ c  c  c | c  c  c  c  c  c  c  c  c  c | c | c  c  c  c  c }
+P & Q & R & ( & P & $\rightarrow$ & ( & $\sim$ & Q & $\lor$ & R & ) & ) & P & ( & Q & $\rightarrow$ & R & )\\
+\hline 
+$\top$ & $\top$ & $\top$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\top$} &  & $\top$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\top$ & $\top$ & $\perp$ &  & $\top$ & \textcolor{red}{$\perp$} &  & $\perp$ & $\top$ & $\perp$ & $\perp$ &  &  & \textcolor{red}{$\top$} &  & $\top$ & \textcolor{red}{$\perp$} & $\perp$ & \\
+$\top$ & $\perp$ & $\top$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\top$ & $\perp$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\top$} &  & $\perp$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\top$ & $\perp$ & $\perp$ &  & $\top$ & \textcolor{red}{$\top$} &  & $\top$ & $\perp$ & $\top$ & $\perp$ &  &  & \textcolor{red}{$\top$} &  & $\perp$ & \textcolor{red}{$\top$} & $\perp$ & \\
+$\perp$ & $\top$ & $\top$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\perp$} &  & $\top$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\perp$ & $\top$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\perp$ & $\top$ & $\perp$ & $\perp$ &  &  & \textcolor{red}{$\perp$} &  & $\top$ & \textcolor{red}{$\perp$} & $\perp$ & \\
+$\perp$ & $\perp$ & $\top$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\top$ & $\perp$ & $\top$ & $\top$ &  &  & \textcolor{red}{$\perp$} &  & $\perp$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\perp$ & $\perp$ & $\perp$ &  & $\perp$ & \textcolor{red}{$\top$} &  & $\top$ & $\perp$ & $\top$ & $\perp$ &  &  & \textcolor{red}{$\perp$} &  & $\perp$ & \textcolor{red}{$\top$} & $\perp$ & \\
+\end{tabular}
+
+\vspace{2em}
+
+%NOTE: requires \usepackage{color}
+\begin{tabular}{ c  c | c  c | c  c  c  c  c | c  c  c  c  c | c  c  c  c  c | c  c  c  c  c }
+P & Q & $\sim$ & P & ( & P & $\&$ & Q & ) & ( & P & $\lor$ & Q & ) & ( & P & $\rightarrow$ & Q & ) & ( & P & $\leftrightarrow$ & Q & )\\
+\hline 
+$\top$ & $\top$ & \textcolor{red}{$\perp$} & $\top$ &  & $\top$ & \textcolor{red}{$\top$} & $\top$ &  &  & $\top$ & \textcolor{red}{$\top$} & $\top$ &  &  & $\top$ & \textcolor{red}{$\top$} & $\top$ &  &  & $\top$ & \textcolor{red}{$\top$} & $\top$ & \\
+$\top$ & $\perp$ & \textcolor{red}{$\perp$} & $\top$ &  & $\top$ & \textcolor{red}{$\perp$} & $\perp$ &  &  & $\top$ & \textcolor{red}{$\top$} & $\perp$ &  &  & $\top$ & \textcolor{red}{$\perp$} & $\perp$ &  &  & $\top$ & \textcolor{red}{$\perp$} & $\perp$ & \\
+$\perp$ & $\top$ & \textcolor{red}{$\top$} & $\perp$ &  & $\perp$ & \textcolor{red}{$\perp$} & $\top$ &  &  & $\perp$ & \textcolor{red}{$\top$} & $\top$ &  &  & $\perp$ & \textcolor{red}{$\top$} & $\top$ &  &  & $\perp$ & \textcolor{red}{$\perp$} & $\top$ & \\
+$\perp$ & $\perp$ & \textcolor{red}{$\top$} & $\perp$ &  & $\perp$ & \textcolor{red}{$\perp$} & $\perp$ &  &  & $\perp$ & \textcolor{red}{$\perp$} & $\perp$ &  &  & $\perp$ & \textcolor{red}{$\top$} & $\perp$ &  &  & $\perp$ & \textcolor{red}{$\top$} & $\perp$ & \\
+\end{tabular}
+
+
 
 
 
