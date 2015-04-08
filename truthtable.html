@@ -7,64 +7,79 @@
 <!-- 
 Truth Table Generator
 
-Copyright (C) 2014  Michael Rieppel <mrieppel at gmail dot com>
+The MIT License (MIT)
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+Copyright (c) 2014-2015 Michael Rieppel
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
  -->
  
 <script src='truthtable.js' type="text/javascript"></script>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
 
 <style type="text/css">
 
-body a {
-text-decoration:none;
+body {
+font-family: "Open Sans", Verdana, Arial, Helvetica, sans-serif;
+color:#444444;
+height:100%;
 }
 
-body a:hover {
-text-decoration:underline;
-}
+a:link {color:#4B2EDE;text-decoration:none;}      /* unvisited link */
+a:visited {color:#4B2EDE;text-decoration:none;}  /* visited link */
+a:hover {color:#9D90DC;text-decoration:none;}  /* mouse over link */
+a:active {color:#FFA04D;text-decoration:none;}  /* selected link */
+
 
 #container {
-font-family: sans-serif;
+width:800px;
+margin-left:auto;
+margin-right:auto;
 font-size:14px;
-width:95%;
-margin:15px auto 0px auto;
-position:relative;
 }
 
 #location {
 color:#999999;
 font-size:12px;
 position:absolute;
-}
-
-#githublink {
-color:#999999;
-font-size:12px;
-position:absolute;
-top:0;
-right:0;
+top:5px;
+left:5px;
 }
 
 #location a {
 color:#999999;
 }
 
+
+#githublink {
+position:absolute;
+top:5px;
+right:5px;
+}
+
+
 #title {
 text-align:center;
 font-size:24px;
+margin-top:10px;
+margin-bottom:20px;
 }
 
 
@@ -135,11 +150,11 @@ color:red;
 
 <div id='location'><a href='../index.html'>Home</a> &gt; <a href='../etc.html'>&amp;c</a> &gt; <a href='truthtable.html'>Truth Table Generator</a></div>
 
-<div id='githublink'>Source code on <a href='https://github.com/mrieppel/TruthTableGenerator'>GitHub</a></div>
+<div id='githublink'><a href='https://github.com/mrieppel/TruthTableGenerator'><img src='github.png' style="height:25px;"></a></div>
 
 <div id='title'>Truth Table Generator</div>
 
-<p>This page contains a JavaScript program which will generate a truth table given a well formed formula of sentential logic.  Enter multiple formulas separated by commas to include more than one formula in a single table.  Select "Full Table" to show all columns, and "Main Connective Only" to show only the column under the main connective.  Select "Text Table" to produce a plain text table, and "LaTex Table" to produce a  table formatted for <a href='http://www.latex-project.org/'>LaTex</a>. (Go <a href='sheffer.html'>here</a> for a program that generates formulas containing only the <a href='http://en.wikipedia.org/wiki/Sheffer_stroke'>Sheffer Stroke</a>.)</p>
+<p>This page contains a JavaScript program which will generate a truth table given a well formed formula of sentential logic.  Enter multiple formulas separated by commas to include more than one formula in a single table.  Select "Full Table" to show all columns, and "Main Connective Only" to show only the column under the main connective.  Select "Text Table" to produce a plain text table, and "LaTex Table" to produce a  table formatted for <a href='http://www.latex-project.org/'>LaTex</a>.</p>
 
 <table>
 <tr>
@@ -179,10 +194,7 @@ color:red;
 </td>
 
 <td style="vertical-align:top;">
-<input type="button" value="Make Table" onclick="construct();">
-</td>
-
-<td style="vertical-align:top;">
+<input type="button" value="Make Table" onclick="construct();"><br><br>
 <input type="radio" name="style" id="full" checked>Full Table<br>
 <input type="radio" name="style" id="main">Main Connective Only<br>
 <input type="radio" name="style" id="text">Text Table<br>

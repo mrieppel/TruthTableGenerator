@@ -2,7 +2,7 @@
 // 
 // The MIT License (MIT)
 // 
-// Copyright (c) 2015 Michael Rieppel
+// Copyright (c) 2014-2015 Michael Rieppel
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -90,7 +90,6 @@ function construct() {
 	}
 	
 	var table = mkTable(formulas,trees);
-	console.log(table);
 	
 	if(full || main) {
 		var htmltable = htmlTable(table,trees,main);
@@ -109,7 +108,6 @@ function construct() {
 		document.getElementById('tt').innerHTML = '<div class="center" style="text-align:center;color:red;">LaTex tables open in a new window.<br/>If no window opened, make sure your your browser<br/>isn\'t blocking popups.</div>';
 	}
 	var duration = (new Date().getTime() - time) / 1000;
-	console.log(duration);
 }
 
 // (Table,[Tree],Boolean) -> String
