@@ -197,26 +197,32 @@ function textTable(table) {
 
 
 // Table -> String
-// Takes a table (as output by mkTable) and returns a LaTex version of the table.
+// Takes a table (as output by mkTable) and the trees its a table of and returns a LaTex version of the table.
 function latexTable(table,trees) {
 	var rownum = table[0].length;
-	var colnum = 0;
 	var mcs = []; // indices of the main connectives
 	for(var i=0;i<trees.length;i++) {
 		mcs.push(mcindex(trees[i]))
 	}
 	var out = '';
-	var dividers = [];
-	var colnum = 0;
+	var dividers = [];// this variable gets updated by the mkrow function; sorry for the non-transparent code
+	var colnum = 0;// this variable gets updated by the mkrow function; sorry for the non-transparent code
+	var parloc = [];// this variable gets updated by the mkrow function; sorry for the non-transparent code
+
 	out += mkrow(table,0); // make top row
-	out += '\\\\\r\n\\hline \r\n'; // put a string of '-' beneath the top row
+	out += '\\\\\r\n\\hline \r\n'; //
 	for(var i=1;i<table[0].length;i++) { // make remaining rows
 		out += mkrow(table,i)+'\\\\\r\n';	
 	}
 	var begintable = '\%NOTE: requires \\usepackage{color}\r\n\\begin{tabular}{';
 	for(var i=0;i<colnum;i++) {
-		if(dividers.indexOf(i)>=0) {begintable += '|';}
-		begintable += ' c ';
+		if(dividers.indexOf(i)>=0) {
+			begintable += ' | c@{}';
+		} else if(dividers.indexOf(i+1)>=0) {
+			begintable += '@{}c';
+		} else {
+			begintable += parloc.indexOf(i)>=0 ? '@{}c@{}' : '@{ }c@{ }';
+		}
 	}
 	
 	return begintable+'}\r\n'+out+'\\end{tabular}';
@@ -224,6 +230,7 @@ function latexTable(table,trees) {
 	function mkrow(tbl,r) { // makes a table row
 		dividers = [];
 		colnum = 0;
+		
 		var rw = '';
 		for(var i=0;i<tbl.length;i++) { // i = table segment
 			for(var j=0;j<tbl[i][r].length;j++) { // r = row, j = cell
@@ -231,6 +238,10 @@ function latexTable(table,trees) {
 					rw += '\\textcolor{red}{'+latexchar(tbl[i][r][j])+'} & '; // add main connective cell char
 				} else {
 					rw += latexchar(tbl[i][r][j])+' & '; // add cell char
+				}
+				if(r==0) {console.log(tbl[i][r][j]);}
+				if(r==0 && (tbl[i][r][j]=='(' || tbl[i][r][j]==')')) {
+					parloc.push(colnum+j);
 				}
 			}
 			colnum +=j;
