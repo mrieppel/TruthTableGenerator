@@ -216,10 +216,12 @@ function latexTable(table,trees) {
 	}
 	var begintable = '\%NOTE: requires \\usepackage{color}\r\n\\begin{tabular}{';
 	for(var i=0;i<colnum;i++) {
-		if(dividers.indexOf(i)>=0) {
-			begintable += ' | c@{}';
+		if(dividers.indexOf(i)>=0 && dividers.indexOf(i+1)>=0) {
+			begintable += ' | c'
+		} else if(dividers.indexOf(i)>=0) {
+			begintable += parloc.indexOf(i)>=0 ? ' | c@{}' : ' | c@{ }';
 		} else if(dividers.indexOf(i+1)>=0) {
-			begintable += '@{}c';
+			begintable += parloc.indexOf(i)>=0 ? '@{}c@{ }' : '@{ }c';
 		} else {
 			begintable += parloc.indexOf(i)>=0 ? '@{}c@{}' : '@{ }c@{ }';
 		}
