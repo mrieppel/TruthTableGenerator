@@ -50,7 +50,7 @@ function txtchar(c) {
 function latexchar(c) {
 	switch(c) {
 		case true : return '$\\top$';
-		case false : return '$\\perp$';
+		case false : return '$\\bot$';
 		case '~' : return '$\\sim$';
 		case '&' : return '$\\&$';
 		case 'v' : return '$\\lor$';
