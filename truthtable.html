@@ -49,7 +49,7 @@ a:active {color:#FFA04D;text-decoration:none;}  /* selected link */
 
 
 #container {
-width:800px;
+width:700px;
 margin-left:auto;
 margin-right:auto;
 font-size:14px;
@@ -83,32 +83,19 @@ margin-bottom:15px;
 }
 
 
-table.symbols {
-border:0;
-border-collapse: collapse;
-}
-
-table.symbols th {
-text-align: left;
-font-weight:bold;
-border:1px solid black;
-padding:.2em;
-}
-
-table.symbols td {
-text-align: left;
-border:1px solid black;
-padding:.2em;
-}
-
-table.symbols td:last-child {
-text-align:center;
-}
 
 td.space {
 width:1em;
 }
 
+
+#tt {
+margin: 0 auto;
+padding: 1em;
+border-top:solid 1px #d3d3d3;
+border-bottom:solid 1px #d3d3d3;
+min-height:5em;
+}
 
 #tt div.center {
 margin: 0 auto;
@@ -140,6 +127,17 @@ table.truth .mc {
 color:red;
 }
 
+#footer {
+margin-left:auto;
+margin-right:auto;
+margin-top:20px;
+width:100%;
+padding-bottom:5px;
+text-align:center;
+color:#A0A0A0;
+font-size:9pt;
+}
+
 </style>
 </head>
 
@@ -154,62 +152,72 @@ color:red;
 
 <div id='title'>Truth Table Generator</div>
 
-<p>This page contains a JavaScript program which will generate a truth table given a well formed formula of sentential logic.  Enter multiple formulas separated by commas to include more than one formula in a single table.  You can choose between a full truth table,  a table that only displays the column underneath the main connective, a table in plain text, and a table formatted for <a href='http://www.latex-project.org/'>LaTex</a>.  (See <a href='sheffer.html'>here</a> for a program to produce formulas involving only the <a href='http://en.wikipedia.org/wiki/Sheffer_stroke'>Sheffer Stroke</a>.)</p>
+<p>This page contains a JavaScript program which will generate a truth table given a well-formed formula of sentential logic.  You can enter multiple formulas separated by commas to include more than one formula in a single table (e.g. to test for entailment).  Tables can be displayed in html (either the full table or the column under the main connective only), plain text (for pasting into a text document), or <a href='http://www.latex-project.org/'>LaTex</a>. You can also select which pair of symbols to use for the two truth values.</p>
 
 <table>
 <tr>
 
-<td>
-
-<table class="symbols">
-<tr><th>Symbols</th><th></th></tr>
-<tr><td>Negation</td><td>~</td></tr>
-<tr><td>Conjunction</td><td>&amp;</td></tr>
-<tr><td>Disjunction</td><td>v</td></tr>
-<tr><td>Conditional</td><td>&gt;</td></tr>
-<tr><td>Biconditional</td><td>&lt; &gt;</td></tr>
-<tr><td>Sheffer Stroke</td><td>|</td></tr>
-<tr><td>Absurdity</td><td>#</td></tr>
-</table>
-
-</td>
-
-<td class='space'></td>
-
-<td style="vertical-align:top;">
-<table>
-<tr><th style='text-align:left;'>Examples:</th></tr>
-<tr><td>~A</td></tr>
-<tr><td>(A &amp; B)</td></tr>
-<tr><td>(# &gt; (B v ~A))</td></tr>
-<tr><td>(A &amp; (~B > C))</td></tr>
-<tr><td>(A<>(BvC)), A, (~B>C)</td></tr>
-</table>
-</td>
-
-
-
-<td style="vertical-align:top;">
-<input type="text" id="in" size="45">
+<td style="padding-right:2em;vertical-align:top;">
+<form>
+<input type="text" id="in" size="60"><br><br>
+<div>Select Truth Value Symbols:</div>
+<input type="radio" name="tvstyle" value="tf" checked>T/F<br>
+<input type="radio" name="tvstyle" value="tb">&#8868;/&perp;<br>
+<input type="radio" name="tvstyle" value="oz">1/0<br>
+</form>
 </td>
 
 <td style="vertical-align:top;">
-<input type="button" value="Make Table" onclick="construct();"><br><br>
+<form>
+<input type="button" value="Generate Truth Table" onclick="construct();"><br><br>
+<div>Select Type of Table:</div>
 <input type="radio" name="style" id="full" checked>Full Table<br>
 <input type="radio" name="style" id="main">Main Connective Only<br>
 <input type="radio" name="style" id="text">Text Table<br>
 <input type="radio" name="style" id="latex">LaTex Table<br>
+</form>
 </td>
 
 </tr>
 </table>
 
-<br>
-<div id="tt">&nbsp;</div>
+
 <br>
 
+<div id="tt""></div>
+
+<br>
+
+<p><b>Symbols:</b> use the following symbols for the various logical connectives:
+
+
+<table>
+<tr><td>~</td><td>for negation</td></tr>
+<tr><td>&amp;</td><td>for conjunction</td></tr>
+<tr><td>v</td><td>for disjunction</td></tr>
+<tr><td>&gt;</td><td>for the conditional</td></tr>
+<tr><td>&lt; &gt;</td><td>for the biconditional</td></tr>
+<tr><td>#</td><td>for absurdity/falsum</td></tr>
+<tr><td>|</td><td>for the Sheffer Stroke, aka NAND</td></tr>
+</table>
+
+<br>
+Here are some examples of well-formed inputs the program will accept:
+
+<ul style="list-style-type:none;padding:0;">
+<li>~A</li>
+<li>(A &amp; B)</li>
+<li>(# &gt; (B v ~A))</li>
+<li>(A &amp; (~B > C))</li>
+<li>(A<>(BvC)), A, (~B>C)</li>
+</ul>
+
+</p>
 
 </div> 
+
+<div id='footer'>&copy; 2011-2017 Michael Rieppel</div>
+
 
 </body>
 

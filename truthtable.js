@@ -23,10 +23,27 @@
 // THE SOFTWARE.
 /*************************************************************************************/
 
-function htmlchar(c) {
+function htmlchar(c,tv) {
 	switch(c) {
-		case true : return 'T';
-		case false : return '&perp;';
+		case true : // return char based on selected truth value style
+			switch(tv) {
+				case 'tb':
+					return '&#8868;';
+				case 'tf':
+					return 'T';
+				case 'oz':
+					return '1';
+			}
+		case false : // return char based on selected truth value style
+			switch(tv) {
+					case 'tb':
+						return '&perp;';
+					case 'tf':
+						return 'F';
+					case 'oz':
+						return '0';
+			}
+			
 		case '~' : return '~';
 		case '&' : return '&amp;';
 		case 'v' : return '&or;';
@@ -38,19 +55,51 @@ function htmlchar(c) {
 	}	
 }
 
-function txtchar(c) {
+function txtchar(c,tv) {
 	switch(c) {
-		case true : return 'T';
-		case false : return 'F';
+		case true : // return char based on selected truth value style
+			switch(tv) {
+				case 'tb':
+					return '\u22a4';
+				case 'tf':
+					return 'T';
+				case 'oz':
+					return '1';
+			}
+		case false : // return char based on selected truth value style
+			switch(tv) {
+					case 'tb':
+						return '\u22a5';
+					case 'tf':
+						return 'F';
+					case 'oz':
+						return '0';
+			}
 		case '' : return ' ';
 		default : return c;
 	}
 }
 
-function latexchar(c) {
+function latexchar(c,tv) {
 	switch(c) {
-		case true : return '$\\top$';
-		case false : return '$\\bot$';
+		case true : // return char based on selected truth value style
+			switch(tv) {
+				case 'tb':
+					return '$\\top$';
+				case 'tf':
+					return 'T';
+				case 'oz':
+					return '1';
+			}
+		case false : // return char based on selected truth value style
+			switch(tv) {
+					case 'tb':
+						return '$\\bot$';
+					case 'tf':
+						return 'F';
+					case 'oz':
+						return '0';
+			}
 		case '~' : return '$\\sim$';
 		case '&' : return '$\\&$';
 		case 'v' : return '$\\lor$';
@@ -66,7 +115,6 @@ function latexchar(c) {
 
 // main construction function
 function construct() {
-	var time = new Date().getTime();
 	var formulas = document.getElementById('in').value.replace(/ /g,'');// remove whitespace
 	if(formulas=='') {return alert("You have to enter a formula.");};
 	var r = badchar(formulas);
@@ -76,6 +124,8 @@ function construct() {
 	var main = document.getElementById('main').checked;
 	var text = document.getElementById('text').checked;
 	var latex = document.getElementById('latex').checked;
+	
+	var tv = document.querySelector('input[name="tvstyle"]:checked').value;
 	
 	formulas = formulas.split(','); // create an array of formulas
 	var trees = formulas.map(parse); // create an array of parse trees
@@ -92,29 +142,24 @@ function construct() {
 	var table = mkTable(formulas,trees);
 	
 	if(full || main) {
-		var htmltable = htmlTable(table,trees,main);
+		var htmltable = htmlTable(table,trees,main,tv);
 		document.getElementById('tt').innerHTML = htmltable;
 	}
 	else if(text) {
-		var texttable = textTable(table);
+		var texttable = textTable(table,tv);
 		document.getElementById('tt').innerHTML = '<div class="center"><pre>'+texttable+'</pre></div>';
 	}
 	else if(latex) {
-		var latextable = latexTable(table,trees);
-		var win = window.open();
-		win.document.open();
-		win.document.write('<pre>'+latextable+'</pre>');
-		win.document.close();
-		document.getElementById('tt').innerHTML = '<div class="center" style="text-align:center;color:red;">LaTex tables open in a new window.<br/>If no window opened, make sure your your browser<br/>isn\'t blocking popups.</div>';
+		var latextable = latexTable(table,trees,tv);
+		document.getElementById('tt').innerHTML = '<pre>'+latextable+'</pre>';
 	}
-	var duration = (new Date().getTime() - time) / 1000;
 }
 
 // (Table,[Tree],Boolean) -> String
 // Takes a table (as output by mkTable), the trees it's a table of, and a boolean and
 // returns an HTML table. If the boolean is set to true, it only prints the column 
 // under the main connective.
-function htmlTable(table,trees,flag) {
+function htmlTable(table,trees,flag,tv) {
 	var rownum = table[0].length;
 	var mcs = []; // indices of the main connectives
 	for(var i=0;i<trees.length;i++) {
@@ -132,9 +177,9 @@ function htmlTable(table,trees,flag) {
 		for(var i=0;i<tbl.length;i++) { // i = table segment
 			for(var j=0;j<tbl[i][0].length;j++) { // row = 0, j = cell
 				if(j==tbl[i][0].length-1 && i!=tbl.length-1) {
-					rw += '<th>'+htmlchar(tbl[i][0][j])+'</th>'+'<th class="dv"></th><th></th>';
+					rw += '<th>'+htmlchar(tbl[i][0][j],tv)+'</th>'+'<th class="dv"></th><th></th>';
 				} else {
-					rw += '<th>'+htmlchar(tbl[i][0][j])+'</th>';
+					rw += '<th>'+htmlchar(tbl[i][0][j],tv)+'</th>';
 				}
 			}
 		}
@@ -146,11 +191,11 @@ function htmlTable(table,trees,flag) {
 		for(var i=0;i<tbl.length;i++) { // i = table segment
 			for(var j=0;j<tbl[i][r].length;j++) { // r = row, j = cell
 				if(mcs[i-1]==j) {
-					rw += '<td class="mc">'+htmlchar(tbl[i][r][j])+'</td>';
+					rw += '<td class="mc">'+htmlchar(tbl[i][r][j],tv)+'</td>';
 				} else if(flag && i>0) {
 					rw += '<td></td>'
 				} else {
-					rw += '<td>'+htmlchar(tbl[i][r][j])+'</td>';
+					rw += '<td>'+htmlchar(tbl[i][r][j],tv)+'</td>';
 				}
 				if(j==tbl[i][r].length-1 && i!=tbl.length-1) {
 					rw += '<td class="dv"></td><td></td>'
@@ -163,7 +208,7 @@ function htmlTable(table,trees,flag) {
 
 // Table -> String
 // Takes a table (as output by mkTable) and returns a text version of the table.
-function textTable(table) {
+function textTable(table,tv) {
 	var rownum = table[0].length;
 	var bcind =  []; // an array of arrays of ints, locations of biconditionals
 	for(var i=0;i<table.length;i++) {
@@ -181,7 +226,7 @@ function textTable(table) {
 		var rw = '';
 		for(var i=0;i<tbl.length;i++) { // i = table segment
 			for(var j=0;j<tbl[i][r].length;j++) { // r = row, j = cell
-				rw += txtchar(tbl[i][r][j])+' '; // add cell char
+				rw += txtchar(tbl[i][r][j],tv)+' '; // add cell char
 				if(bcind[i].indexOf(j)>=0 && r!=0) {rw += ' ';} // add space for biconditional
 				if(j==tbl[i][r].length-1 && i!=tbl.length-1) {rw += '| ';} // add segment separator
 			}
@@ -198,7 +243,7 @@ function textTable(table) {
 
 // Table -> String
 // Takes a table (as output by mkTable) and the trees its a table of and returns a LaTex version of the table.
-function latexTable(table,trees) {
+function latexTable(table,trees,tv) {
 	var rownum = table[0].length;
 	var mcs = []; // indices of the main connectives
 	for(var i=0;i<trees.length;i++) {
@@ -237,9 +282,9 @@ function latexTable(table,trees) {
 		for(var i=0;i<tbl.length;i++) { // i = table segment
 			for(var j=0;j<tbl[i][r].length;j++) { // r = row, j = cell
 				if(mcs[i-1]==j && r!=0) {
-					rw += '\\textcolor{red}{'+latexchar(tbl[i][r][j])+'} & '; // add main connective cell char
+					rw += '\\textcolor{red}{'+latexchar(tbl[i][r][j],tv)+'} & '; // add main connective cell char
 				} else {
-					rw += latexchar(tbl[i][r][j])+' & '; // add cell char
+					rw += latexchar(tbl[i][r][j],tv)+' & '; // add cell char
 				}
 				if(r==0) {console.log(tbl[i][r][j]);}
 				if(r==0 && (tbl[i][r][j]=='(' || tbl[i][r][j]==')')) {
