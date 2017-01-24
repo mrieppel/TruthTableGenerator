@@ -27,21 +27,15 @@ function htmlchar(c,tv) {
 	switch(c) {
 		case true : // return char based on selected truth value style
 			switch(tv) {
-				case 'tb':
-					return '&#8868;';
-				case 'tf':
-					return 'T';
-				case 'oz':
-					return '1';
+				case 'tb': return '&#8868;';
+				case 'tf': return 'T';
+				case 'oz': return '1';
 			}
 		case false : // return char based on selected truth value style
 			switch(tv) {
-					case 'tb':
-						return '&perp;';
-					case 'tf':
-						return 'F';
-					case 'oz':
-						return '0';
+					case 'tb': return '&perp;';
+					case 'tf': return 'F';
+					case 'oz': return '0';
 			}
 			
 		case '~' : return '~';
@@ -59,21 +53,15 @@ function txtchar(c,tv) {
 	switch(c) {
 		case true : // return char based on selected truth value style
 			switch(tv) {
-				case 'tb':
-					return '\u22a4';
-				case 'tf':
-					return 'T';
-				case 'oz':
-					return '1';
+				case 'tb': return '\u22a4';
+				case 'tf': return 'T';
+				case 'oz': return '1';
 			}
 		case false : // return char based on selected truth value style
 			switch(tv) {
-					case 'tb':
-						return '\u22a5';
-					case 'tf':
-						return 'F';
-					case 'oz':
-						return '0';
+					case 'tb': return '\u22a5';
+					case 'tf': return 'F';
+					case 'oz': return '0';
 			}
 		case '' : return ' ';
 		default : return c;
@@ -84,21 +72,15 @@ function latexchar(c,tv) {
 	switch(c) {
 		case true : // return char based on selected truth value style
 			switch(tv) {
-				case 'tb':
-					return '$\\top$';
-				case 'tf':
-					return 'T';
-				case 'oz':
-					return '1';
+				case 'tb': return '$\\top$';
+				case 'tf': return 'T';
+				case 'oz': return '1';
 			}
 		case false : // return char based on selected truth value style
 			switch(tv) {
-					case 'tb':
-						return '$\\bot$';
-					case 'tf':
-						return 'F';
-					case 'oz':
-						return '0';
+					case 'tb': return '$\\bot$';
+					case 'tf': return 'F';
+					case 'oz': return '0';
 			}
 		case '~' : return '$\\sim$';
 		case '&' : return '$\\&$';
@@ -286,7 +268,6 @@ function latexTable(table,trees,tv) {
 				} else {
 					rw += latexchar(tbl[i][r][j],tv)+' & '; // add cell char
 				}
-				if(r==0) {console.log(tbl[i][r][j]);}
 				if(r==0 && (tbl[i][r][j]=='(' || tbl[i][r][j]==')')) {
 					parloc.push(colnum+j);
 				}
