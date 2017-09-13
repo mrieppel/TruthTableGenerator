@@ -343,7 +343,12 @@ function mktseg(f,t,lhs) {
 		row = flatten(row);
 		tbrows.push(row);
 	}
-	tbrows = [flatten(t)].concat(tbrows);
+	var wff = flatten(t); // removes outermost parentheses on wffs
+	if(wff[0]=='(') {
+		wff[0] = '';
+		wff[wff.length-1]= '';
+	}
+	tbrows = [wff].concat(tbrows);
 	return tbrows;
 }
 
