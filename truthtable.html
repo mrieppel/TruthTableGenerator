@@ -158,7 +158,7 @@ font-size:9pt;
 <tr>
 
 <td style="padding-right:2em;vertical-align:top;">
-<input type="text" id="in" size="60"><br><br>
+<input type="text" id="in" size="60" oninput="construct();"><br><br>
 <div>Select Truth Value Symbols:</div>
 <input type="radio" name="tvstyle" value="tf" checked>T/F<br>
 <input type="radio" name="tvstyle" value="tb">&#8868;/&perp;<br>
@@ -166,7 +166,7 @@ font-size:9pt;
 </td>
 
 <td style="vertical-align:top;">
-<input type="button" value="Generate Truth Table" onclick="construct();"><br><br>
+<input type="button" value="Generate Truth Table"><br><br>
 <div>Select Type of Table:</div>
 <input type="radio" name="style" id="full" checked>Full Table<br>
 <input type="radio" name="style" id="main">Main Connective Only<br>
