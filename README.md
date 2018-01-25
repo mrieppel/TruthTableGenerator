@@ -7,4 +7,4 @@ The output characters used for the various connectives can be changed by modifyi
 
 A live version of the program is [here](http://mrieppel.github.io/TruthTableGenerator/).
 
-(c) Michael Rieppel 2010-2017. Released under the MIT License.  See LICENSE above for more information.
+(c) Michael Rieppel 2010-2018. Released under the MIT License.  See LICENSE above for more information.
