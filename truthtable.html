@@ -146,28 +146,36 @@ font-size:9pt;
 
 <div id='container'>
 
-<div id='location'><a href='../index.html'>Home</a> &gt; <a href='../etc.html'>&amp;c</a> &gt; <a href='truthtable.html'>Truth Table Generator</a></div>
+<div id='location'><a href='http://mrieppel.net/'>Home</a> &gt; <a href='http://mrieppel.net/etc.html'>&amp;c</a> &gt; <a href='index.html'>Truth Table Generator</a></div>
 
 <div id='githublink'><a href='https://github.com/mrieppel/TruthTableGenerator'><img src='github.png' style="height:25px;"></a></div>
 
 <div id='title'>Truth Table Generator</div>
 
-<p>This page contains a JavaScript program which will generate a truth table given a well-formed formula of sentential logic.  You can enter multiple formulas separated by commas to include more than one formula in a single table (e.g. to test for entailment).  Tables can be displayed in html (either the full table or the column under the main connective only), plain text, or <a href='http://www.latex-project.org/'>LaTeX</a>. You can also select which pair of symbols to use for the two truth values.</p>
+<p>This page contains a JavaScript program which will generate a truth table given a well-formed formula of truth-functional logic.  You can enter multiple formulas separated by commas to include more than one formula in a single table (e.g. to test for entailment).  Tables can be displayed in html (either the full table or the column under the main connective only), plain text, or <a href='http://www.latex-project.org/'>LaTex</a>. You can also select which symbols to use for the two truth values and the connectives.</p>
 
 <table>
 <tr>
 
 <td style="padding-right:2em;vertical-align:top;">
 <input type="text" id="in" size="60"><br><br>
-<div>Select Truth Value Symbols:</div>
+<div class="parent-div">
+<div style="float:left;width=45%;"><div>Truth Value Symbols:</div>
 <input type="radio" name="tvstyle" value="tf" checked>T/F<br>
 <input type="radio" name="tvstyle" value="tb">&#8868;/&perp;<br>
-<input type="radio" name="tvstyle" value="oz">1/0<br>
+<input type="radio" name="tvstyle" value="oz">1/0<br></div>
+<div style="float:right;width=45%;margin-right:30px;"><div>Connective Symbols:</div>
+<input type="radio" name="cset" value="cs1" checked>&not;, &and;, &or;, &rarr;, &harr;<br>
+<input type="radio" name="cset" value="cs2">~, &amp;, &or;, &rarr;, &harr;<br>
+<input type="radio" name="cset" value="cs3">~, &amp;, &or;, &sup;, &equiv;<br></div>
+</div>
 </td>
+
+
 
 <td style="vertical-align:top;">
 <input type="button" value="Generate Truth Table" onclick="construct();"><br><br>
-<div>Select Type of Table:</div>
+<div>Type of Table:</div>
 <input type="radio" name="style" id="full" checked>Full Table<br>
 <input type="radio" name="style" id="main">Main Connective Only<br>
 <input type="radio" name="style" id="text">Text Table<br>
@@ -184,7 +192,7 @@ font-size:9pt;
 
 <br>
 
-<p><b>Symbols:</b> use the following symbols for the various logical connectives:</p>
+<p><b>Symbols:</b> use the following symbols in your input for the various logical connectives:</p>
 
 
 <table>
@@ -208,11 +216,11 @@ font-size:9pt;
 <li>(A<>(BvC)), A, (~B>C)</li>
 </ul>
 
-
+<p>The source code is available on GitHub, just click the icon at the top right corner of the page.
 
 </div> 
 
-<div id='footer'>&copy; 2011-2018 Michael Rieppel</div>
+<div id='footer'>&copy; 2011-2020 Michael Rieppel</div>
 
 
 <!-- Start of StatCounter Code for Default Guide -->
@@ -234,6 +242,7 @@ src="//c.statcounter.com/10143714/0/d4b1e890/1/" alt="free
 web stats"></a></div></noscript>
 
 <!-- End of StatCounter Code for Default Guide -->
+
 
 </body>
 
