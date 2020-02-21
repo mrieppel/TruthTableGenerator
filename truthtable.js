@@ -56,7 +56,7 @@ function htmlchar(c,tv,cs) {
 		case '<>' : 
 			switch(cs) {
 				case 'cs3' : return '&equiv;';
-				default : return '&rarr;';
+				default : return '&harr;';
 			}
 		case '|' : return '|';
 		case '#' : return '&perp;'
