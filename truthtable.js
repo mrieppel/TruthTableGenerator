@@ -2,7 +2,7 @@
 //
 // The MIT License (MIT)
 //
-// Copyright (c) 2010-2021 Michael Rieppel
+// Copyright (c) 2010-2022 Michael Rieppel
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -354,13 +354,11 @@ function mklhs(fs) {
 	var atomic = [];
 	var tvrows = [];
 	for(var i=0;i<fs.length;i++) {
-		atomic = atomic.concat(getatomic(fs[i]))
+		atomic = atomic.concat(getatomic(fs[i]));
 	}
-	atomic = sorted(rmDup(atomic));
-	if(atomic.indexOf('#')>=0) {
-		tvrows = tvcomb(atomic.length-1);
-		tvrows = tvrows.map(function(x) {return [false].concat(x);});
-	} else {tvrows = tvcomb(atomic.length);}
+	atomic = sorted(rmDup(atomic)); // remove duplicate atomic letters and sort alphabetically
+	atomic = atomic.filter(function (e) {return e!='#';}); // remove absurdity from atomic letters since it will be treated as logical constant
+	tvrows = tvcomb(atomic.length);
 	return [atomic].concat(tvrows);
 }
 
@@ -440,7 +438,7 @@ function evlTree(t,a) {
 		var t1 = evlTree(t[1],a);
 		return [gtTv([t[0],t1]),t1];
 	} else if(t.length==1) {
-		return [a[t[0]]];
+		return t[0]=='#' ? [false] : [a[t[0]]];
 	}
 }
 
@@ -456,6 +454,7 @@ function gtTv(arr) {
 		case '>' : return (!tv(arr[1])||tv(arr[2]));
 		case '<>' : return (tv(arr[1])==tv(arr[2]));
 		case '|' : return (!(tv(arr[1])&&tv(arr[2])));
+		case '!' : return (!(tv(arr[1])||tv(arr[2])));
 	}
 	function tv(x) {
 		switch(x.length) {
@@ -486,7 +485,7 @@ function sorted(a) {
 /* THE GRAMMAR
 S ::= U S | '(' S B S ')' | A
 U ::= '~'
-B ::= '&' | 'v' | '>' | '<>' | '|'
+B ::= '&' | 'v' | '>' | '<>' | '|' | '!'
 A ::= '#' | 'A' | 'B' | 'C' | 'D' | ...
 */
 
@@ -555,7 +554,7 @@ function gSub(s) {
 // takes a string and determines if it begins with a binary connective.  If so, returns
 // the length of the connective, otherwise returns 0.
 function isB(s) {
-	var bc = ['&','v','>','<>','|'];
+	var bc = ['&','v','>','<>','|','!'];
 	for(var i=0;i<bc.length;i++) {
 		if(s.indexOf(bc[i]) == 0) {
 			return bc[i].length;
@@ -567,7 +566,7 @@ function isB(s) {
 // String -> Int
 // Checks if the string contains any inadmissible characters
 function badchar(s) {
-	var x = ',()~v&<>|#ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuwxyz';
+	var x = ',()~v&<>|!#ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuwxyz';
 	for(var i=0;i<s.length;i++) {
 		if(x.indexOf(s[i])<0) {
 			return i;
