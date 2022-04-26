@@ -99,25 +99,23 @@ footer {
 
 </style>
 
-
 <script type="text/javascript">
-
-
-// You can modify the translation schemes here (in the case of binary connectives, 'p' stands for the left wff and 'q' for the right wff).
 
 var nandneg = "(p|p)";
 var nandcon = "((p|q)|(p|q))";
 var nanddis = "((p|p)|(q|q))";
 var nandimp = "(p|(q|q))";
 var nandbic = "(((p|(q|q))|(q|(p|p)))|((p|(q|q))|(q|(p|p))))";
+var nandnand = "(p|q)";
+var nandnor = "(((p|p)|(q|q))|((p|p)|(q|q)))";
 
 var norneg = "(p!p)";
 var norcon = "((p!p)!(q!q))";
 var nordis = "((p!q)!(p!q))";
 var norimp = "(((p!p)!q)!((p!p)!q))";
 var norbic = "(((p!p)!((q!q)!(q!q)))!((q!q)!((p!p)!(p!p))))";
-
-
+var nornand = "(((p!p)!(q!q))!((p!p)!(q!q)))";
+var nornor = "(p!q)";
 
 function constructnand() {
   var formula = document.getElementById('in1').value.replace(/ /g,'');// remove whitespace
@@ -133,7 +131,7 @@ function constructnand() {
   if(tree.length==0) { // checks if any formulas are still malformed
     return alert("The formula you entered is not well formed");
   }
-  var schemas = [nandneg,nandcon,nanddis,nandimp,nandbic];
+  var schemas = [nandneg,nandcon,nanddis,nandimp,nandbic,nandnand,nandnor];
   var translation = translate(tree,schemas);
   document.getElementById('tt1').innerHTML = "<p>"+translation+"</p>";
 }
@@ -152,7 +150,7 @@ function constructnor() {
   if(tree.length==0) { // checks if any formulas are still malformed
     return alert("The formula you entered is not well formed");
   }
-  var schemas = [norneg,norcon,nordis,norimp,norbic];
+  var schemas = [norneg,norcon,nordis,norimp,norbic,nornand,nornor];
   var translation = translate(tree,schemas);
   document.getElementById('tt2').innerHTML = "<p>"+translation+"</p>";
 }
@@ -177,6 +175,14 @@ function translate(t,s) {
       return schema.join("");
     } else if(t[2]=='<>') {
       schema = s[4].split('');
+      schema = schema.map((el) => el=='p' ? lh : (el=='q' ? rh : el));
+      return schema.join("");
+    } else if(t[2]=='|') {
+      schema = s[5].split('');
+      schema = schema.map((el) => el=='p' ? lh : (el=='q' ? rh : el));
+      return schema.join("");
+    } else if(t[2]=='!') {
+      schema = s[6].split('');
       schema = schema.map((el) => el=='p' ? lh : (el=='q' ? rh : el));
       return schema.join("");
     }
@@ -205,7 +211,7 @@ function translate(t,s) {
 
 <div id='title'>Sheffer Stroke Converter</div>
 
-<p>This page contains a JavaScript program which, given a well formed formula of sentential logic, will output an equivalent formula that uses only the <a href='http://en.wikipedia.org/wiki/Sheffer_stroke'>Sheffer Stroke</a> (representing the NAND operation).  Not necessarily the <i>shortest</i> formula, though! Try out ~(A&B), for example.  You can generate truth tables for these formulas <a href='truthtable.html'>here</a>.  See below for the keyboard symbols to use for the logical connectives.</p>
+<p>This page contains a program that will convert a formula of truth-functional logic into an equivalent formula that uses only the <a href='http://en.wikipedia.org/wiki/Sheffer_stroke'>Sheffer Stroke</a> (representing the NAND operation).  It won't generally be the <i>shortest</i> equivalent formula, though! Try out ~(A&B), for example.  You can generate truth tables for the converted formulas <a href='truthtable.html'>here</a>.  See below for the keyboard symbols to use for the logical connectives.</p>
 
 <div class="ttinput">
   <input type="text" class="in" id="in1" size="40">
@@ -214,7 +220,7 @@ function translate(t,s) {
 
 <div class="tt" id="tt1"></div>
 
-<p>Wittgenstein famously used the Sheffer stroke in the <a href="https://en.wikipedia.org/wiki/Tractatus_Logico-Philosophicus">Tractatus</a>, but there it represents the <a href="https://en.wikipedia.org/wiki/Logical_NOR">NOR operation</a> (rather than NAND). So here is another converter, this time one that will output an equivalent formula using only a NOR-stroke (here represented using '!').  So (A!B) means ~(AvB) or, equivalently, (~A&amp;~B), i.e. the joint denial of A and B.  In the Tractatus, Wittgenstein generalizes this into his N operator, which forms the joint denial of any collection of propositions.  You can read more about that <a href="https://www.jstor.org/stable/3327740?seq=1">here</a>.
+<p>Wittgenstein famously used the Sheffer stroke in the <a href="https://en.wikipedia.org/wiki/Tractatus_Logico-Philosophicus">Tractatus</a>, but there it represents the <a href="https://en.wikipedia.org/wiki/Logical_NOR">NOR operation</a> (rather than NAND). So here is another converter, this time one that will output an equivalent formula using only a NOR-stroke (here represented using '!').  So (A!B) means ~(AvB) or, equivalently, (~A&amp;~B) i.e. the joint denial of A and B.  In the Tractatus Wittgenstein generalized this into his N operator, which forms the joint denial of any collection of propositions.  You can read more about that <a href="https://www.jstor.org/stable/3327740?seq=1">here</a>.
 
 <div class="ttinput">
   <input type="text" class="in" id="in2" size="40">
@@ -244,8 +250,9 @@ function translate(t,s) {
 <ul style="list-style-type:none;padding:0;">
 <li>~A</li>
 <li>(A &amp; B)</li>
-<li>(# &gt; (B v ~A))</li>
 <li>(A &amp; (~B > C))</li>
+<li>(# &gt; (B v ~A))</li>
+<li>(A|B) &lt;&gt; ~(A &amp; B)</li>
 <li>~((A v D) &lt;&gt; (B &amp; C))
 </li>
 </ul>
