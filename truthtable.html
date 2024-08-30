@@ -110,10 +110,11 @@ a:active {color:#FFA04D;text-decoration:none;}  /* selected link */
   width:100%;
 }
 
-#in-op1, #in-op2, #in-op3 {
+#in-op1, #in-op2, #in-op3, #in-op4 {
   display:inline-block;
-  width:200px;
+  width:160px;
   vertical-align:top;
+  margin-top:10px;
 }
 
 table.truth {
@@ -172,7 +173,7 @@ footer {
 
 <div id='title'>Truth Table Generator</div>
 
-<p>This page contains a program that will generate truth tables for formulas of truth-functional logic.  You can enter multiple formulas separated by commas to include more than one formula in a single table (e.g. to test for entailment).  Tables can be displayed in html (either the full table or the column under the main connective only), plain text, or <a href='http://www.latex-project.org/'>LaTeX</a>. You can also select which symbols to use for the two truth values and the connectives.</p>
+<p>This page contains a program that will generate truth tables for formulas of propositional logic.  You can enter multiple formulas separated by commas to include more than one formula in a single table (e.g. to test for entailment).  Below you can select which symbols to use for the truth-values and connectives, the style of the table (full table, main connective only, plain text, or <a href='http://www.latex-project.org/'>LaTeX</a> output), and (by special request!) two-valued or different types of three-valued tables.</p>
 
 <div id="ttinput">
   <input type="text" id="in" size="40">
@@ -198,17 +199,23 @@ footer {
 </div>
 
 <div id="in-op3">
-<div>Table Type:</div>
-<input type="radio" name="style" id="full" checked><label for="full">Full Table</label><br>
-<input type="radio" name="style" id="main"><label for="main">Main Connective Only</label><br>
-<input type="radio" name="style" id="text"><label for="textt"><label for="full">Text Table</label><br>
-<input type="radio" name="style" id="latex"><label for="latex">LaTex Table</label><br>
+<div>Table Style:</div>
+<input type="radio" name="style" id="full" value="full" checked><label for="full">Full Table</label><br>
+<input type="radio" name="style" id="main" value="main"><label for="main">Main Connective</label><br>
+<input type="radio" name="style" id="text" value="text"><label for="text"><label for="full">Text Table</label><br>
+<input type="radio" name="style" id="latex" value="latex"><label for="latex">LaTex Table</label><br>
+</div>
+
+<div id="in-op4">
+<div>Type:</div>
+<input type="radio" name="type" id="twoval" value="twoval" checked><label for="twoval">Two-Valued</label><br>
+<input type="radio" name="type" id="luka" value="luka"><label for="luka">Łukasiewicz</label><br>
+<input type="radio" name="type" id="skleen" value="skleen"><label for="skleen"><label for="full">Strong Kleene</label><br>
+<input type="radio" name="type" id="wkleen" value="wkleen"><label for="wkleen">Weak Kleene</label><br>
 </div>
 
 </div>
 <br>
-
-
 
 
 <p><b>Symbols:</b> use the following keyboard symbols in your input for the various logical connectives:</p>
@@ -220,7 +227,7 @@ footer {
 <tr><td class="connective">v</td><td>for disjunction</td></tr>
 <tr><td class="connective">&gt;</td><td>for the conditional</td></tr>
 <tr><td class="connective">&lt; &gt;</td><td>for the biconditional</td></tr>
-<tr><td class="connective">#</td><td>for absurdity</td></tr>
+<tr><td class="connective">#</td><td>for absurdity/falsum</td></tr>
 <tr><td class="connective">|</td><td>for NAND (aka the <a href="sheffer.html">Sheffer Stroke</a>)</td></tr>
 <tr><td class="connective">!</td><td>for NOR (Wittgenstein's <a href="sheffer.html">Sheffer Stroke</a>)</td></tr>
 </table>
@@ -239,7 +246,7 @@ footer {
 
 <p>The source code is available on GitHub, just click the icon at the top right corner of the page.
 
-<footer>&copy; 2010-2022 Michael Rieppel</footer>
+<footer>&copy; 2010-2024 Michael Rieppel</footer>
 
 </div>
 <!-- Close container div -->

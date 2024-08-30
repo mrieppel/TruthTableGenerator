@@ -2,7 +2,7 @@
 //
 // The MIT License (MIT)
 //
-// Copyright (c) 2010-2022 Michael Rieppel
+// Copyright (c) 2010-2024 Michael Rieppel
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,12 @@ function htmlchar(c,tv,cs) {
 					case 'tb': return '&perp;';
 					case 'tf': return 'F';
 					case 'oz': return '0';
+			}
+		case null : // return char based on selected truth value style (third truth value)
+			switch(tv) {
+					case 'tb': return 'N';
+					case 'tf': return 'N';
+					case 'oz': return 'N';
 			}
 		case '~' :  // return connective chars based on selected cset
 			switch(cs) {
@@ -78,6 +84,12 @@ function txtchar(c,tv,cs) {
 					case 'tf': return 'F';
 					case 'oz': return '0';
 			}
+		case null : // return char based on selected truth value style (third truth value)
+			switch(tv) {
+					case 'tb': return 'N';
+					case 'tf': return 'N';
+					case 'oz': return 'N';
+			}
 		case '' : return ' ';
 		default : return c;
 	}
@@ -96,6 +108,12 @@ function latexchar(c,tv,cs) {
 					case 'tb': return '$\\bot$';
 					case 'tf': return 'F';
 					case 'oz': return '0';
+			}
+		case null : // return char based on selected truth value style (third truth value)
+			switch(tv) {
+					case 'tb': return 'N';
+					case 'tf': return 'N';
+					case 'oz': return 'N';
 			}
 		case '~' :  // return connective chars based on selected cset
 			switch(cs) {
@@ -133,11 +151,7 @@ function construct() {
 	var r = badchar(formulas);
 	if(r>=0) {return alert("The string you entered contains the following unrecognized symbol: "+formulas[r]);};
 
-	var full = document.getElementById('full').checked;
-	var main = document.getElementById('main').checked;
-	var text = document.getElementById('text').checked;
-	var latex = document.getElementById('latex').checked;
-
+	var style = document.querySelector('input[name="style"]:checked').value;
 	var tv = document.querySelector('input[name="tvstyle"]:checked').value;
 	var cs = document.querySelector('input[name="cset"]:checked').value;
 
@@ -149,21 +163,21 @@ function construct() {
 			trees[i] = parse(formulas[i]);
 		}
 	}
+	
 	if(trees.filter(function(a) {return a.length==0;}).length>0) { // checks if any formulas are still malformed
 		return alert("One of the formulas you entered is not well formed");
 	}
 
 	var table = mkTable(formulas,trees);
-
-	if(full || main) {
-		var htmltable = htmlTable(table,trees,main,tv,cs);
+	if(style=='full' || style=='main') {
+		var htmltable = htmlTable(table,trees,(style=='main'),tv,cs);
 		document.getElementById('tt').innerHTML = htmltable;
 	}
-	else if(text) {
+	else if(style=='text') {
 		var texttable = textTable(table,tv,cs);
 		document.getElementById('tt').innerHTML = '<div class="center"><pre>'+texttable+'</pre></div>';
 	}
-	else if(latex) {
+	else if(style=='latex') {
 		var latextable = latexTable(table,trees,tv,cs);
 		document.getElementById('tt').innerHTML = '<pre>'+latextable+'</pre>';
 	}
@@ -339,37 +353,39 @@ function countleaves(t) {
 // element is the lhs of the table, and the succeeding elements are the table segments
 // for each passed formula.
 function mkTable(fs,ts) {
-	var lhs = mklhs(fs);
+	var type = document.querySelector('input[name="type"]:checked').value; // get type of table, two-valued or otherwise
+	var lhs = mklhs(fs,type);
 	var rhs = [];
 	for(var i=0;i<fs.length;i++) {
-		rhs.push(mktseg(fs[i],ts[i],lhs));
+		rhs.push(mktseg(fs[i],ts[i],lhs,type));
 	}
 	return [lhs].concat(rhs);
 }
 
-// [String] -> LHSTable
-// Takes an array of strings and makes the left hand side of a table (i.e. the rows
-// with all the tv assignments)
-function mklhs(fs) {
+// ([String], TType) -> LHSTable
+// Takes an array of strings and a table type, makes the left hand side of a table 
+// (i.e. the rows with all the tv assignments)
+function mklhs(fs,type) {
 	var atomic = [];
 	var tvrows = [];
+	var tvs = (type=='twoval') ? [[true],[false]] : [[true],[false],[null]]; // send two or three truth values to tvcfun?
 	for(var i=0;i<fs.length;i++) {
 		atomic = atomic.concat(getatomic(fs[i]));
 	}
 	atomic = sorted(rmDup(atomic)); // remove duplicate atomic letters and sort alphabetically
 	atomic = atomic.filter(function (e) {return e!='#';}); // remove absurdity from atomic letters since it will be treated as logical constant
-	tvrows = tvcomb(atomic.length);
+	tvrows = tvcfun(tvs,atomic.length);
 	return [atomic].concat(tvrows);
 }
 
-// (String, Tree, LHSTable) -> TableSegment
-// Takes a tree, the formula it's a tree of, and a LHSTable, and returns a TableSegment
-// for the formula
-function mktseg(f,t,lhs) {
+// (String, Tree, LHSTable, TType) -> TableSegment
+// Takes a tree, the formula it's a tree of, a LHSTable, and table type, returns a 
+// TableSegment for the formula
+function mktseg(f,t,lhs,type) {
 	var tbrows=[];
 	for(var i=1;i<lhs.length;i++) {
 		var a = mkAss(lhs[0],lhs[i]);
-		var row = evlTree(t,a);
+		var row = evlTree(t,a,type);
 		row = flatten(row);
 		tbrows.push(row);
 	}
@@ -393,17 +409,22 @@ function getatomic(s) {
 	return out;
 }
 
-// Int -> [[Bool]]
-// Takes an int n and returns 2^n truth value assignments (each an array)
-function tvcomb(n) {
+// [[val]] -> Int -> [[val]]
+// Piece de resistance, totally illegible ;-)  Takes an array of singleton arrays and an
+// int n and returns the n-ary Cartesian power of the set of singleton values.  In 
+// practice: takes either [[true],[false]] or [[true], [false], [null]] and the number n
+// of atomic formulas and returns and array of all 2- or 3-valued assignments to those
+// atoms in a canonical order, i.e. the left side of the truth table
+function tvcfun(a,n) {
 	if(n==0) {return [[]];}
-	var prev = tvcomb(n-1);
-	var mt = function(x) {return [true].concat(x);};
-	var mf = function(x) {return [false].concat(x);};
-	return prev.map(mt).concat(prev.map(mf));
+	var prev = tvcfun(a,(n-1));
+	return a.reduce(foo,[]);
+	function foo(ac,cv) {
+		return ac.concat(prev.map((e) => cv.concat(e)));
+	}
 }
 
-// ([Char], [Bool]) -> Assignment
+// ([Char], [Bool+]) -> Assignment
 // Takes an array of n Chars and an array of n Bools and returns a assignment that
 // assigns the nth Bool to the nth Char.
 function mkAss(s,b) {
@@ -426,35 +447,35 @@ function flatten(t) {
 	}
 }
 
-// (Tree,Assignment) -> Tree
-// Takes a tree and an assignment of booleans to atomic sentences and returns an
-// evaluated tree (i.e. with all atomic sentences and connectives replaced by booleans).
-function evlTree(t,a) {
+// (Tree, Assignment, TType) -> Tree
+// Takes a tree and an assignment of booleans to atomic sentences and table type, returns 
+//an evaluated tree (i.e. with all atomic sentences and connectives replaced by booleans).
+function evlTree(t,a,type) {
 	if(t.length==5) {
-		var t1 = evlTree(t[1],a);
-		var t3 = evlTree(t[3],a);
-		return ['',t1,gtTv([t[2],t1,t3]),t3,'']
+		var t1 = evlTree(t[1],a,type);
+		var t3 = evlTree(t[3],a,type);
+		return ['',t1,gtTv([t[2],t1,t3],type),t3,'']
 	} else if(t.length==2) {
-		var t1 = evlTree(t[1],a);
-		return [gtTv([t[0],t1]),t1];
+		var t1 = evlTree(t[1],a,type);
+		return [gtTv([t[0],t1],type),t1];
 	} else if(t.length==1) {
 		return t[0]=='#' ? [false] : [a[t[0]]];
 	}
 }
 
-// Array -> Boolean
+// Array -> Boolean+
 // Takes an array, the first element of which is a connective, and the rest of which
 // are evaluated trees of the formulas it connects, and returns the truth value
 // associated with the connective
-function gtTv(arr) {
+function gtTv(arr,type) {
 	switch(arr[0]) {
-		case '~' : return !tv(arr[1]);
-		case '&' : return tv(arr[1])&&tv(arr[2]);
-		case 'v' : return tv(arr[1])||tv(arr[2]);
-		case '>' : return (!tv(arr[1])||tv(arr[2]));
-		case '<>' : return (tv(arr[1])==tv(arr[2]));
-		case '|' : return (!(tv(arr[1])&&tv(arr[2])));
-		case '!' : return (!(tv(arr[1])||tv(arr[2])));
+		case '~' : return fneg(tv(arr[1]));
+		case '&' : return fcnj(tv(arr[1]),tv(arr[2]),type);
+		case 'v' : return fdsj(tv(arr[1]),tv(arr[2]),type);
+		case '>' : return fcnd(tv(arr[1]),tv(arr[2]),type);
+		case '<>' : return fcnj( fcnd(tv(arr[1]),tv(arr[2]),type), fcnd(tv(arr[2]),tv(arr[1]),type), type );
+		case '|' : return fneg(fcnj(tv(arr[1]),tv(arr[2]),type));
+		case '!' : return fneg(fdsj(tv(arr[1]),tv(arr[2]),type));
 	}
 	function tv(x) {
 		switch(x.length) {
@@ -462,6 +483,44 @@ function gtTv(arr) {
 			case 2 : return x[0];
 			case 1 : return x[0];
 		}
+	}
+}
+
+// Boolean+ -> Boolean+
+// Negation: takes one truth value, no table type needed since all agree on negation
+function fneg(v) {
+	return v===null ? null : !v;
+}
+
+// (Boolean+, Boolean+, TType) -> Boolean+
+// Conjunction: takes two truth values and a table type
+function fcnj(v1,v2,type) {
+	if(type==='twoval' || type=='luka' || type=='skleen') {
+		return (v1===null) ? ((v2==null) ? null : (v2 ? null : false)) : ((v2===null) ? (v1 ? null : false) : (v1 && v2));
+	} else if(type==='wkleen') {
+		return (v1===null || v2===null) ? null : (v1 && v2);
+	}
+}
+
+// (Boolean+, Boolean+, TType) -> Boolean+
+// Disjunction: takes two truth values and a table type
+function fdsj(v1,v2,type) {
+	if(type==='twoval' || type=='luka' || type=='skleen') {
+		return (v1===null) ? ((v2==null) ? null : (v2 ? true : null)) : ((v2===null) ? (v1 ? true : null) : (v1 || v2));
+	} else if(type=='wkleen') {
+		return (v1===null || v2===null) ? null : (v1 || v2);
+	}
+}
+
+// (Boolean+, Boolean+, TType) -> Boolean+
+// Conditional: takes two truth values and a table type
+function fcnd(v1,v2,type) {
+	if(type==='twoval' || type=='luka') {
+		return (v1===null) ? ((v2==null) ? true : (v2 ? true : null)) : ((v2===null) ? (v1 ? null : true) : (!v1 || v2));
+	} else if(type=='skleen') {
+		return (v1===null) ? ((v2==null) ? null : (v2 ? true : null)) : ((v2===null) ? (v1 ? null : true) : (!v1 || v2));
+	} else if(type=='wkleen') {
+		return (v1===null || v2===null) ? null : (!v1 || v2);
 	}
 }
 
@@ -486,7 +545,7 @@ function sorted(a) {
 S ::= U S | '(' S B S ')' | A
 U ::= '~'
 B ::= '&' | 'v' | '>' | '<>' | '|' | '!'
-A ::= '#' | 'A' | 'B' | 'C' | 'D' | ...
+A ::= '#' | 'A' | 'B' | 'C' | 'D' | ... | 'a' | 'b' | ...
 */
 
 // String -> Tree
